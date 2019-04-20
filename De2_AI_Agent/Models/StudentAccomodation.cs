@@ -12,7 +12,7 @@ namespace De2_AI_Agent.Models
         public string location { get; set; }
         public string IncomeGroup { get; set; }
         [Required]
-        public int UsersId { get; set; }
+        public int AccomodationOwnerUsersId { get; set; }
 
         public virtual AccomodationOwner AccomodationOwner { get; set; }
         public ICollection<Rater> Rater { get; set; }

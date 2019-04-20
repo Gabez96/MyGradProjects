@@ -1,4 +1,5 @@
 ﻿using De2_AI_Agent.Models;
+using De2_AI_Agent.TreeStore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,12 +45,27 @@ namespace De2_AI_Agent.Controllers
                     ChildNode area1 = new ChildNode(local);
                     lower.Child.Add(area1);
                     treeNode.ChildNodes.Add(lower);
-                    
-                    
 
+                    ChildNode acc = lower.Child.Where(c => c.data == local).FirstOrDefault();
+
+                    if (acc.Child.Count() == 0)
+                    {
+
+                        treeNode.ChildNodes.Remove(lower);
+                        lower.Child.Remove(area1);
+                        string name = studentAccomodation.Name;
+                        ChildNode namelow = new ChildNode(name);
+                        acc.Child.Add(namelow);
+                        lower.Child.Add(acc);
+                        treeNode.ChildNodes.Add(lower);
+                        AddAccomodation(studentAccomodation);
+                    }
+                    else
+                    {
+
+                    }
+                    
                 }
-                
-
             }
             else if(studentAccomodation.IncomeGroup == "Medium")
             {
@@ -72,7 +88,10 @@ namespace De2_AI_Agent.Controllers
                         studcom.Child.Add(staccom);
                         middle.Child.Add(studcom);
                         treeNode.ChildNodes.Add(middle);
+
+
                         dynamic tu = treeNode;
+                        AddAccomodation(studentAccomodation);
                     }
                     else
                     {
@@ -93,25 +112,55 @@ namespace De2_AI_Agent.Controllers
                     ChildNode highIncomeArea = new ChildNode(high);
                     higher.Child.Add(highIncomeArea);
                     treeNode.ChildNodes.Add(higher);
+                    ChildNode childNodehigher = higher.Child.Where(c => c.data == high).FirstOrDefault(); 
+                    if(childNodehigher.Child.Count() == 0)
+                    {
+
+                        treeNode.ChildNodes.Remove(higher);
+                        higher.Child.Remove(childNodehigher);
+                        string nameHigh = studentAccomodation.Name;
+                        ChildNode child = new ChildNode(nameHigh);
+                        childNodehigher.Child.Add(child);
+                        higher.Child.Add(childNodehigher);
+                        treeNode.ChildNodes.Add(higher);
+                        AddAccomodation(studentAccomodation);
+                    }
+                    else
+                    {
+
+                    }
 
                     return View();
                 }
             }
 
-            return View();
-
-            
+            return View();            
         }
 
 
         public StudentAccomodation ViewAccomodation(int AccomId)
         {
-
             return null;
         }
 
         public void AddAccomodation(StudentAccomodation data)
         {
+            DataStorage dataStorage = new DataStorage();
+            data.AccomodationOwnerUsersId = 1;
+            try
+            {
+                dataStorage.StudentAccomodation.Add(data);
+                dataStorage.SaveChanges();
+
+            }catch(Exception e)
+            {
+                _ = e.StackTrace;
+            }
+        }
+
+        public void SaveTree(TreeNode treedata)
+        {
+
 
         }
 
