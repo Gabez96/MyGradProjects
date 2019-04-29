@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace De2_AI_Agent.Controllers
 {
+
+
+
     public class StudentAccomodationController : Controller
     {
+        private ConvertToText c2t = new ConvertToText();
         // GET: StudentAccomodation
         public ActionResult Index()
         {
-
 
             return View();
         }
@@ -24,13 +27,19 @@ namespace De2_AI_Agent.Controllers
         public async  Task<ActionResult> Index(StudentAccomodation studentAccomodation)
         {
 
-            TreeNode treeNode = new TreeNode("Root");
-            ChildNode low = new ChildNode("Low");
-            ChildNode medium = new ChildNode("Medium");
-            ChildNode High = new ChildNode("High");
-            treeNode.ChildNodes.Add(low);
-            treeNode.ChildNodes.Add(medium);
-            treeNode.ChildNodes.Add(High);
+
+            TreeNode treeNode = c2t.RetrieveTree();
+
+            if (treeNode == null)
+            {
+                ChildNode low = new ChildNode("Low");
+                ChildNode medium = new ChildNode("Medium");
+                ChildNode High = new ChildNode("High");
+                treeNode.ChildNodes.Add(low);
+                treeNode.ChildNodes.Add(medium);
+                treeNode.ChildNodes.Add(High);
+            }
+
 
             int t = treeNode.ChildNodes.Count();
 
@@ -46,7 +55,7 @@ namespace De2_AI_Agent.Controllers
                     lower.Child.Add(area1);
                     treeNode.ChildNodes.Add(lower);
 
-                    ChildNode acc = lower.Child.Where(c => c.data == local).FirstOrDefault();
+                   ChildNode acc = lower.Child.Where(c => c.data == local).FirstOrDefault();
 
                     if (acc.Child.Count() == 0)
                     {
@@ -58,7 +67,11 @@ namespace De2_AI_Agent.Controllers
                         acc.Child.Add(namelow);
                         lower.Child.Add(acc);
                         treeNode.ChildNodes.Add(lower);
-                        AddAccomodation(studentAccomodation);
+                       c2t.SaveTree(treeNode);
+                        
+                        //TreeNode trees = c2t.RetrieveTree();
+                        //var h = trees;
+                       AddAccomodation(studentAccomodation);
                     }
                     else
                     {
@@ -89,9 +102,12 @@ namespace De2_AI_Agent.Controllers
                         middle.Child.Add(studcom);
                         treeNode.ChildNodes.Add(middle);
 
+                        c2t.SaveTree(treeNode);
 
-                        dynamic tu = treeNode;
-                        AddAccomodation(studentAccomodation);
+                      // TreeNode tre = c2t.RetrieveTree();
+                       //var tu = tre;
+                        //dynamic tu = treeNode;
+                       AddAccomodation(studentAccomodation);
                     }
                     else
                     {
@@ -123,7 +139,11 @@ namespace De2_AI_Agent.Controllers
                         childNodehigher.Child.Add(child);
                         higher.Child.Add(childNodehigher);
                         treeNode.ChildNodes.Add(higher);
-                        AddAccomodation(studentAccomodation);
+
+                        c2t.SaveTree(treeNode);
+                        //TreeNode rt = c2t.RetrieveTree();
+                        //var f = rt;
+                       AddAccomodation(studentAccomodation);
                     }
                     else
                     {

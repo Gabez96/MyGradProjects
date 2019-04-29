@@ -5,6 +5,7 @@ using System.Web;
 
 namespace De2_AI_Agent.Models
 {
+    [Serializable]
     public class TreeNode
     {
 
