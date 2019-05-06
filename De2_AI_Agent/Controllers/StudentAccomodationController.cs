@@ -24,7 +24,7 @@ namespace De2_AI_Agent.Controllers
 
 
         [HttpPost]
-        public async  Task<ActionResult> Index(StudentAccomodation studentAccomodation)
+        public ActionResult Index(StudentAccomodation studentAccomodation)
         {
 
 
@@ -47,7 +47,7 @@ namespace De2_AI_Agent.Controllers
             {
                 ChildNode lower = treeNode.ChildNodes.Where(c => c.data == "Low").FirstOrDefault();
                 
-                if(lower.Child.Count() == 0)
+                if(lower.Child.Count() != 0)
                 {
                     treeNode.ChildNodes.Remove(lower);
                     string local = studentAccomodation.location;
@@ -57,7 +57,7 @@ namespace De2_AI_Agent.Controllers
 
                    ChildNode acc = lower.Child.Where(c => c.data == local).FirstOrDefault();
 
-                    if (acc.Child.Count() == 0)
+                    if (acc.Child.Count() != 0)
                     {
 
                         treeNode.ChildNodes.Remove(lower);
@@ -76,14 +76,53 @@ namespace De2_AI_Agent.Controllers
                     else
                     {
 
+                        treeNode.ChildNodes.Remove(lower);
+                        lower.Child.Remove(area1);
+                        string name = studentAccomodation.Name;
+                        ChildNode namelow = new ChildNode(name);
+                        acc.Child.Add(namelow);
+                        lower.Child.Add(acc);
+                        treeNode.ChildNodes.Add(lower);
+                        c2t.SaveTree(treeNode);
+
+                        //TreeNode trees = c2t.RetrieveTree();
+                        //var h = trees;
+                        AddAccomodation(studentAccomodation);
                     }
-                    
+
+                }
+                else
+                {
+                    string local = studentAccomodation.location;
+                    ChildNode area1 = new ChildNode(local);
+                    lower.Child.Add(area1);
+                    treeNode.ChildNodes.Add(lower);
+
+                    ChildNode acc = lower.Child.Where(c => c.data == local).FirstOrDefault();
+
+
+                    if (acc.Child.Count() == 0)
+                    {
+
+                        treeNode.ChildNodes.Remove(lower);
+                        lower.Child.Remove(area1);
+                        string name = studentAccomodation.Name;
+                        ChildNode namelow = new ChildNode(name);
+                        acc.Child.Add(namelow);
+                        lower.Child.Add(acc);
+                        treeNode.ChildNodes.Add(lower);
+                        c2t.SaveTree(treeNode);
+
+                        //TreeNode trees = c2t.RetrieveTree();
+                        //var h = trees;
+                        AddAccomodation(studentAccomodation);
+                    }
                 }
             }
             else if(studentAccomodation.IncomeGroup == "Medium")
             {
                 ChildNode middle = treeNode.ChildNodes.Where(c => c.data == "Medium").FirstOrDefault();
-                if (middle.Child.Count() == 0)
+                if (middle.Child.Count() != 0)
                 {
                     treeNode.ChildNodes.Remove(middle);
                     string mid = studentAccomodation.location;
@@ -92,7 +131,7 @@ namespace De2_AI_Agent.Controllers
                     treeNode.ChildNodes.Add(middle);
                     ChildNode studcom = middle.Child.Where(c => c.data == mid).FirstOrDefault();
 
-                    if (studcom.Child.Count()==0)
+                    if (studcom.Child.Count()!=0)
                     {
                         treeNode.ChildNodes.Remove(middle);
                         middle.Child.Remove(studcom);
@@ -121,7 +160,7 @@ namespace De2_AI_Agent.Controllers
             {
 
                 ChildNode higher = treeNode.ChildNodes.Where(c => c.data == "High").FirstOrDefault();
-                if (higher.Child.Count()==0)
+                if (higher.Child.Count()!=0)
                 {
                     treeNode.ChildNodes.Remove(higher);
                     string high = studentAccomodation.location;
@@ -129,7 +168,7 @@ namespace De2_AI_Agent.Controllers
                     higher.Child.Add(highIncomeArea);
                     treeNode.ChildNodes.Add(higher);
                     ChildNode childNodehigher = higher.Child.Where(c => c.data == high).FirstOrDefault(); 
-                    if(childNodehigher.Child.Count() == 0)
+                    if(childNodehigher.Child.Count() != 0)
                     {
 
                         treeNode.ChildNodes.Remove(higher);
@@ -143,7 +182,7 @@ namespace De2_AI_Agent.Controllers
                         c2t.SaveTree(treeNode);
                         //TreeNode rt = c2t.RetrieveTree();
                         //var f = rt;
-                       AddAccomodation(studentAccomodation);
+                        AddAccomodation(studentAccomodation);
                     }
                     else
                     {

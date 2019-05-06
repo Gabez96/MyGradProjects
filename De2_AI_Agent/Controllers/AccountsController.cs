@@ -68,5 +68,41 @@ namespace De2_AI_Agent.Controllers
             ViewBag.Message = "Wrong!!";
             return View();
         }
+
+
+
+        public ActionResult Login()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(string username,string password)
+        {
+
+            if(username!=null & password != null)
+            {
+
+                try
+                {
+                   var userss = db.Users.Where(c => c.username == username & c.password == password);
+
+                    if (userss != null)
+                    {
+                        Response.Redirect("Home/Index");
+                    }
+
+                }catch(Exception e)
+                {
+
+                }
+
+            }
+
+
+            return View();
+        }
     }
 }

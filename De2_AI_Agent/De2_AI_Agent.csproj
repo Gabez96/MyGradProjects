@@ -181,6 +181,7 @@
     <Compile Include="Models\Rater.cs" />
     <Compile Include="Models\Recommender.cs" />
     <Compile Include="Models\Register.cs" />
+    <Compile Include="Models\StuAccomRatings.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAccomodation.cs" />
     <Compile Include="Models\TreeNode.cs" />
@@ -235,6 +236,9 @@
     <Content Include="Views\Accounts\Register.cshtml" />
     <Content Include="Views\Ratings\Index.cshtml" />
     <Content Include="Views\Ratings\Rate.cshtml" />
+    <Content Include="Views\Accounts\Login.cshtml" />
+    <Content Include="Views\Ratings\GetAllStudentAccomodations.cshtml" />
+    <Content Include="Views\Ratings\RateAccomodation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

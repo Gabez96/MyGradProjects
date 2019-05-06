@@ -11,29 +11,106 @@ namespace De2_AI_Agent.Controllers
     public class RatingsController : Controller
     {
         DataStorage treedatStore = new DataStorage();
-        StudentAccomodation studentAccomodation;
+        
         TreeNode treeNode;
         ConvertToText c2t;
         // GET: Ratings
-        public ActionResult Index()
+        int Id;
+
+        public ActionResult GetAllStudentAccomodations()
         {
+            List<StudentAccomodation> stu = null;
+            try
+            {
+
+                stu = new List<StudentAccomodation>();
+
+                stu = treedatStore.StudentAccomodation.ToList();
+
+                return View(stu);
+            }
+            catch (Exception e)
+            {
+
+            }
+
+
+
+            return View(stu);
+        }
+
+
+        public ActionResult RateAccomodation(int RateId)
+        {
+            StuAccomRatings stuaccomratings = new StuAccomRatings();
+            try
+            {
+
+                var  stu = treedatStore.StudentAccomodation.Where(c => c.Id == RateId).FirstOrDefault();
+                Id = stu.Id;
+                stuaccomratings.Name = stu.Name;
+                stuaccomratings.IncomeGroup = stu.IncomeGroup;
+                stuaccomratings.location = stu.location;
+                stuaccomratings.ImageUrl = stu.ImageUrl;
+                stuaccomratings.Description = "mnjhbvfjdksld sdmckvjhcdjkfv dkcjhdnjcvhbgd";
+
+                return View(stuaccomratings);
+            }catch(Exception e)
+            {
+
+
+            }
+
             return View();
         }
 
-       [HttpPost]
-        public ActionResult Index(Rater rateings)
+        [HttpPost]
+        public ActionResult RateAccomodation(StuAccomRatings stuAccomRatings)
         {
-            rateings.UsersId = 1;
-            rateings.StudentAccomodationId = 1;
+            if (ModelState.IsValid)
+            {
+
+                Rater r = new Rater();
+
+                r.safety = stuAccomRatings.safety;
+                r.service = stuAccomRatings.service;
+                r.StudentAccomodationId = Id;
+                r.UsersId = 1;
+
+
+                try
+                {
+                    treedatStore.Rater.Add(r);
+                    treedatStore.SaveChanges();
+
+                    SaveRating(r, stuAccomRatings);
+                }
+                catch(Exception e)
+                {
+
+
+
+                }
+               
+
+            }
+
+            return View();
+        }
+
+
+
+        public int SaveRating(Rater rateings, StuAccomRatings studentAccomodation)
+        {
+            
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    studentAccomodation = treedatStore.StudentAccomodation.Where(c => c.Id == rateings.StudentAccomodationId).FirstOrDefault();
+       
                     treedatStore.Rater.Add(rateings);
-                    treedatStore.SaveChanges();
-                    
+                    treedatStore.SaveChanges();             
                 }
                 catch(Exception ex)
                 {
@@ -56,32 +133,27 @@ namespace De2_AI_Agent.Controllers
 
                                 foreach(ChildNode acomodation in area.Child)
                                 {
-                                    if(studentAccomodation.Name== acomodation.data)
+                                    if(studentAccomodation.Name == acomodation.data)
                                     {
 
                                         acomodation.Id = Convert.ToString(rateings.safety + rateings.service);
                                         
                                         var t = treeNode;
+
+
+                                        c2t.SaveTree(treeNode);
                                     }
-
-
-
                                 }
                             }
 
 
                         }
-                    }
-
-                   
+                    }   
                 }
-                
-                
-
+                return 1;      
             }
-
-            
-            return View();
+          
+            return -1;
         }
     }
 }

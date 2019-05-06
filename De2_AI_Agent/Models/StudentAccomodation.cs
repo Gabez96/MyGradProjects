@@ -10,6 +10,8 @@ namespace De2_AI_Agent.Models
         public int Id { get; set; }
         public string Name {get;set;}
         public string location { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
         public string IncomeGroup { get; set; }
         [Required]
         public int AccomodationOwnerUsersId { get; set; }
