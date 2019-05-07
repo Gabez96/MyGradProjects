@@ -29,7 +29,7 @@ namespace De2_AI_Agent.Controllers
             {
                 if (users.UsersType == "Student")
                 {
-                    stu.University = "University of Capetown";
+                    stu.University = "University of Witswatersrand";
                 }
                 else
                 {
@@ -87,22 +87,35 @@ namespace De2_AI_Agent.Controllers
 
                 try
                 {
-                   var userss = db.Users.Where(c => c.username == username & c.password == password);
+                   Users userss = db.Users.Where(c => c.username == username & c.password == password).FirstOrDefault();
 
                     if (userss != null)
                     {
-                        Response.Redirect("Home/Index");
+
+                        Student student = db.Student.Where(c => c.UsersId == userss.Id).FirstOrDefault();
+                        if (student != null)
+                        {
+                            Session["Student"] = student;
+                          return  RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+
+                            AccomodationOwner accomodationOwner = db.AccomodationOwner.Where(c => c.UsersId == userss.Id).FirstOrDefault();
+                            Session["AccomOwner"] = accomodationOwner;
+
+                            return RedirectToAction("Index", "Home");
+                        }   
                     }
 
                 }catch(Exception e)
                 {
-
+                    
                 }
 
             }
-
-
             return View();
+
         }
     }
 }

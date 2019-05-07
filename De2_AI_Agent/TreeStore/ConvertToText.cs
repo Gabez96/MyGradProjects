@@ -36,8 +36,6 @@ namespace De2_AI_Agent.TreeStore
                     }
                 }
                 
-                
-
 
             }catch(Exception ex)
             {
@@ -48,12 +46,20 @@ namespace De2_AI_Agent.TreeStore
 
         public TreeNode RetrieveTree()
         {
-            TreeNode tree;
-            using (Stream stream = File.Open(path, FileMode.Open))
+            if (new FileInfo(path).Length != 0)
             {
+                using (Stream stream = File.Open(path, FileMode.Open))
+                {
 
-                var binaryformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (TreeNode)binaryformatter.Deserialize(stream);
+                    var binaryformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                    return (TreeNode)binaryformatter.Deserialize(stream);
+
+                }
+            }
+            else
+            {
+                return null;
             }
             
         }
