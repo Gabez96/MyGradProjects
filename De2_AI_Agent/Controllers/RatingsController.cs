@@ -75,7 +75,7 @@ namespace De2_AI_Agent.Controllers
                 r.safety = stuAccomRatings.safety;
                 r.service = stuAccomRatings.service;
                 r.StudentAccomodationId = Id;
-                r.UsersId = 1;
+                r.UsersId = 19;
 
 
                 try

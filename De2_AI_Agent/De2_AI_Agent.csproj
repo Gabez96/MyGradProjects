@@ -239,10 +239,10 @@
     <Content Include="Views\Accounts\Login.cshtml" />
     <Content Include="Views\Ratings\GetAllStudentAccomodations.cshtml" />
     <Content Include="Views\Ratings\RateAccomodation.cshtml" />
+    <Content Include="Views\Recommend\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Recommend\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
