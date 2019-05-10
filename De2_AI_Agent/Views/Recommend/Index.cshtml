@@ -1,48 +1,69 @@
-﻿@model De2_AI_Agent.Models.Login
-
+﻿@model De2_AI_Agent.Models.RecoomendSuperclass
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
+<form class="form-horizontal">
+    <div class="row">
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Login</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
-            </div>
+        <div class="col-md-10">
+            <table>
+                @foreach (var item in Model.studentAccomodations)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.location</td>
+                        <td>@item.IncomeGroup</td>
+                    </tr>
+                }
+            </table>
+
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+        <div class="col-md-2">
+            <div class="form-group" >
+                <input type="text" id="incomegroup"/>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group" >
+                <input type="text" id="area"/>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="submit">Go</button>
             </div>
         </div>
     </div>
-}
+</form>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<script>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    $(document).ready(function () {
+
+        $("#submit").click(function () {
+            var areas = $("#area").val();
+            var incomegroup = $("#incomegroup").val();
+
+            console.log("area", areas);
+            console.log("icnom stream", incomegroup);
+            
+            $.ajax({
+                type: 'POST',
+                url: "/Recommend/Index",
+                data: { income: $("#incomegroup").val(), area: $("#area").val() },
+                cache: false,
+                success: function (data) {
+                        console.log("response", data);
+                    },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("error response", textStatus);
+                    }
+
+            });
+        });
+
+    });
+
+
+</script>

@@ -180,6 +180,7 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Rater.cs" />
     <Compile Include="Models\Recommender.cs" />
+    <Compile Include="Models\RecoomendSuperclass.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\StuAccomRatings.cs" />
     <Compile Include="Models\Student.cs" />
