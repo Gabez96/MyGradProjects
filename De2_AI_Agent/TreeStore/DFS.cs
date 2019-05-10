@@ -8,17 +8,20 @@ using De2_AI_Agent.Models;
 
 namespace De2_AI_Agent.TreeStore
 {
-   
+
     public class DFS
     {
         int counter = 0;
         List<string> visitedNodes;
-        Stack stack;
-        public void TreeTraversal(TreeNode treeNode,string area, string incomegroup)
+        Stack stack = new Stack();
+        string goalval;
+        List<string> studentaccomodations = new List<string>();
+        bool found = false;
+        public void TreeTraversal(TreeNode treeNode, string area, string incomegroup)
         {
-           
 
-            if(treeNode == null)
+
+            if (treeNode == null)
             {
                 return;
             }
@@ -30,22 +33,23 @@ namespace De2_AI_Agent.TreeStore
 
             stack = new Stack();
             stack.Push(treeNode);
-            
-            
-             TreeNode t =(TreeNode) stack.Pop();
-               
-             foreach(ChildNode child in t.ChildNodes)
-             {
 
-                    Traverse(child);
-             }
-                          
+
+            TreeNode t = (TreeNode)stack.Pop();
+
+            foreach (ChildNode child in t.ChildNodes)
+            {
+
+                Traverse(child, area, incomegroup);
+
+            }
+
         }
 
-        public void Traverse(ChildNode child)
+        public void Traverse(ChildNode child, string area, string incomegroup)
         {
 
-            if(child == null)
+            if (child == null)
             {
                 return;
             }
@@ -53,41 +57,197 @@ namespace De2_AI_Agent.TreeStore
             visitedNodes.Add(child.data);
             stack.Push(child);
 
-            
-            while(stack.Count > 0)
+
+
+
+            while (stack.Count > 0)
             {
                 ChildNode childNode = (ChildNode)stack.Pop();
-                
-                foreach (ChildNode node in childNode.Child)
+
+                if (childNode.data == incomegroup)
                 {
-                                       
-                        visitedNodes.Add(node.data);
-
-                        stack.Push(node);
-
-                        System.Diagnostics.Debug.WriteLine(node.data);
-                    
-                    if(node.Child.Count == 0)
+                    visitedNodes.Add(childNode.data);
+                    System.Diagnostics.Debug.WriteLine(childNode.data);
+                    foreach (ChildNode node in childNode.Child)
                     {
-                        GetRecommendations(node);
+
+                        if (node.data == area)
+                        {
+                            visitedNodes.Add(node.data);
+                            stack.Push(node);
+                            System.Diagnostics.Debug.WriteLine(node.data);
+                            foreach (ChildNode chd in node.Child)
+                            {
+                                visitedNodes.Add(chd.data);
+                                System.Diagnostics.Debug.WriteLine(chd.data);
+                                stack.Push(chd);
+                                GetRecommendations(chd);
+
+                            }
+                        }
                     }
-                   
                 }
             }
 
         }
 
 
-        public List<string> GetRecommendations(ChildNode node)
+        public string GetRecommendations(ChildNode node)
         {
-            List<string> recommendationsm = new List<string>();
+          
             int rating = Convert.ToInt32(node.Id);
 
-            if(rating > 7)
+            if (rating > 7)
             {
-                recommendationsm.Add(node.data);
+                return node.data;
+            }
+            
+            return null;
+        }
+
+        public List<string> IterativeDeepeningSearch(TreeNode treee, ChildNode gooal, int depth)
+        {
+            List<string> result = new List<string>();
+
+
+            for (int i = 0; i < depth; i++)
+            {
+                goalval = gooal.data;
+                result = DepthLimitedSearch(treee, gooal, depth);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        public List<string> DepthLimitedSearch(TreeNode tree, ChildNode goal, int limit)
+        {
+            
+            ChildNode chd = new ChildNode(tree.Data);
+            chd.Child = tree.ChildNodes;
+            
+            if(limit > 0)
+            {
+                
+                foreach(ChildNode n in chd.Child)
+                {
+                   TreeNode trees = new TreeNode(n.data);
+                   trees.ChildNodes = n.Child;
+
+                    if (n.data == goalval)
+                    {
+                        goalval = goal.Id;
+                        DepthLimitedSearch(trees, goal, limit - 1);
+                    }
+                    System.Diagnostics.Debug.WriteLine(n.data);
+                    if(n.Child.Count == 0)
+                    {
+                        string res = GetRecommendations(n);
+                        if (res != null)
+                        {
+                            studentaccomodations.Add(res);
+                        }
+                    }   
+                    if(n.data == goal.Id & goalval == goal.Id)
+                    {
+                        if (studentaccomodations != null)
+                        {
+                            return studentaccomodations;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
             }
             return null;
         }
     }
+    
 }
+
+
+/*
+ public string IterativeDeepeningSearch(TreeNode treee,ChildNode gooal,int depth)
+        {
+            string result = "";
+
+            for (int i =0; i < depth; i++)
+            {
+                result = DepthLimitedSearch(treee, gooal,i);
+
+                if (result != null)
+                {
+                    return "";
+                }
+
+            }
+
+            return null;
+
+        }
+
+        public string DepthLimitedSearch(TreeNode tree,ChildNode goal,int limit)
+        {
+            string res = "";
+            TreeNode treeChild;
+          
+            int depth = 3;
+
+            if(tree.Data == goal.data)
+            {
+                return tree.Data;
+            }
+            ChildNode chd = new ChildNode(tree.Data);
+            chd.Child = tree.ChildNodes;
+            stack.Push(chd);
+            
+            string searchval = goal.data;
+            
+               
+            if(limit <= depth)
+            {
+            
+             
+                    ChildNode child = (ChildNode)stack.Pop();
+
+                    if(child.data == searchval)
+                    {
+                        
+                        searchval = goal.Id;
+                       
+                        for(int y =0; y < child.Child.Count(); y++)
+                        {
+                            GetRecommendations(child.Child[y]);
+                        }
+                    }
+                    else
+                    {
+
+                        foreach(ChildNode n in child.Child)
+                        {
+                            
+                            if (!visited.Contains(n.data))
+                            {
+                                visited.Add(n.data);
+                                stack.Push(n);
+                            }
+                       }
+                        if(searchval == goal.Id)
+                        {
+                            goal.Id = searchval;
+                        }
+                    }
+            }
+            return null;
+        }
+
+
+
+
+
+    */
