@@ -16,6 +16,7 @@ namespace De2_AI_Agent.Models
         public int service { get; set; }
         public int safety { get; set; }
 
+        public string review { get; set; }
 
 
 

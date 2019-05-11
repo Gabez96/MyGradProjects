@@ -97,7 +97,7 @@ namespace De2_AI_Agent.TreeStore
           
             int rating = Convert.ToInt32(node.Id);
 
-            if (rating > 7)
+            if (rating >= 7)
             {
                 return node.data;
             }
@@ -151,7 +151,7 @@ namespace De2_AI_Agent.TreeStore
                             studentaccomodations.Add(res);
                         }
                     }   
-                    if(n.data == goal.Id & goalval == goal.Id)
+                    if(n.data == goal.data & goalval == goal.Id)
                     {
                         if (studentaccomodations != null)
                         {

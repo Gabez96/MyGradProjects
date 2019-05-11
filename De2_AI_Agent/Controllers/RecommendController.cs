@@ -30,15 +30,21 @@ namespace De2_AI_Agent.Controllers
         
 
 
+
+        public ActionResult ShowRecom()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public ActionResult Index(string income, string area)
+        public ActionResult ShowRecom(RecoomendSuperclass.Percept percept)
         {
             c2T = new ConvertToText();
             TreeNode treeNode = c2T.RetrieveTree();
             DFS dFS = new DFS();
-            ChildNode goal = new ChildNode(income);
-            goal.Id = area;
-
+            ChildNode goal = new ChildNode(percept.Incomegroup);
+            goal.Id = percept.area;
+            RecoomendSuperclass recoomend;
             List<string> recommendations = dFS.IterativeDeepeningSearch(treeNode,goal, 3);
             if (recommendations != null)
             {
@@ -46,27 +52,44 @@ namespace De2_AI_Agent.Controllers
             }
             if (studentAccomodation != null)
             {
-                return Json(studentAccomodation, JsonRequestBehavior.AllowGet);
+                recoomend = new RecoomendSuperclass();
+                recoomend.studentAccomodations = studentAccomodation;
+
+                Session["RecommendationRating"] = recoomend;
+                return RedirectToAction("ShowRecommendations", "Recommend");
+               
             }
-            return Json("", JsonRequestBehavior.AllowGet);
+            return View();
         }
 
-        public string GetRecommendations(List<string> recomm)
+        public ActionResult ShowRecommendations()
         {
-          
+
+            RecoomendSuperclass studentAccomodations = (RecoomendSuperclass)Session["RecommendationRating"];
+
+            if (studentAccomodations != null)
+            {
+                return View(studentAccomodations.studentAccomodations);
+            }
+            return null;
+        }
+
+
+        public string GetRecommendations(List<string> recomm)
+        { 
             StudentAccomodation studcom = new StudentAccomodation();
            for(int i  =0; i < recomm.Count; i++)
            {
+                string h = recomm[i];
                 try
                 {
-                    studcom = db.StudentAccomodation.Where(c => c.Name == recomm[i]).FirstOrDefault();
+                    studcom = db.StudentAccomodation.Where(c => c.Name == h).FirstOrDefault();
                     studentAccomodation.Add(studcom);
                 }
                 catch(Exception e)
                 {
-                    return null;
-                }
-           
+                    e.ToString();
+                }           
            }
             return null;
         }

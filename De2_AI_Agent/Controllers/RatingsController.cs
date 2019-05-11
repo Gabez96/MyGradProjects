@@ -33,9 +33,6 @@ namespace De2_AI_Agent.Controllers
             {
 
             }
-
-
-
             return View(stu);
         }
 
@@ -76,23 +73,20 @@ namespace De2_AI_Agent.Controllers
                 r.service = stuAccomRatings.service;
                 r.StudentAccomodationId = Id;
                 r.UsersId = 19;
-
+                r.review = stuAccomRatings.review;
 
                 try
                 {
-                    treedatStore.Rater.Add(r);
-                    treedatStore.SaveChanges();
+                    //treedatStore.Rater.Add(r);
+                    //treedatStore.SaveChanges();
 
                     SaveRating(r, stuAccomRatings);
                 }
                 catch(Exception e)
                 {
 
-
-
                 }
                
-
             }
 
             return View();
@@ -105,22 +99,10 @@ namespace De2_AI_Agent.Controllers
             
 
             if (ModelState.IsValid)
-            {
-                try
-                {
-       
-                    treedatStore.Rater.Add(rateings);
-                    treedatStore.SaveChanges();             
-                }
-                catch(Exception ex)
-                {
-                    ex.ToString();
-                }
-
+            {              
                 c2t = new ConvertToText();
                 treeNode = c2t.RetrieveTree();
-
-                
+             
                 foreach(ChildNode node in treeNode.ChildNodes)
                 {
                     if (node.data == studentAccomodation.IncomeGroup)
@@ -142,6 +124,7 @@ namespace De2_AI_Agent.Controllers
 
 
                                         c2t.SaveTree(treeNode);
+                                        break;
                                     }
                                 }
                             }

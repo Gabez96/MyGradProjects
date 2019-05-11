@@ -192,6 +192,7 @@
     <Compile Include="TreeStore\ConvertToText.cs" />
     <Compile Include="TreeStore\DataStorage.cs" />
     <Compile Include="TreeStore\DFS.cs" />
+    <Compile Include="TreeStore\SentimentAnalysis.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -241,6 +242,8 @@
     <Content Include="Views\Ratings\GetAllStudentAccomodations.cshtml" />
     <Content Include="Views\Ratings\RateAccomodation.cshtml" />
     <Content Include="Views\Recommend\Index.cshtml" />
+    <Content Include="Views\Recommend\ShowRecommendations.cshtml" />
+    <Content Include="Views\Recommend\ShowRecom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

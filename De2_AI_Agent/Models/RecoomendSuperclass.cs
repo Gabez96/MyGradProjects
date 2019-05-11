@@ -13,8 +13,9 @@ namespace De2_AI_Agent.Models
         public List<Rater> raters { get; set; }
        
         public List<StudentAccomodation> studentAccomodations { get; set; }
-
-        public class Percept {
+        public Percept percept { get; set; }
+        public class Percept
+        {
             public string area { get; set; }
             public string Incomegroup { get; set; }
 
