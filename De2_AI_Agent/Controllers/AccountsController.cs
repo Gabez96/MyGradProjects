@@ -62,7 +62,7 @@ namespace De2_AI_Agent.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    e.ToString();
                 }
             }
             ViewBag.Message = "Wrong!!";
@@ -73,8 +73,6 @@ namespace De2_AI_Agent.Controllers
 
         public ActionResult Login()
         {
-
-
             return View();
         }
 
@@ -110,7 +108,7 @@ namespace De2_AI_Agent.Controllers
 
                 }catch(Exception e)
                 {
-                    
+                    e.ToString();
                 }
 
             }

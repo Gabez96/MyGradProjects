@@ -146,7 +146,7 @@ namespace De2_AI_Agent.Controllers
                       // TreeNode tre = c2t.RetrieveTree();
                        //var tu = tre;
                         //dynamic tu = treeNode;
-                       //AddAccomodation(studentAccomodation);
+                       AddAccomodation(studentAccomodation);
                     }
                     else
                     {
@@ -160,10 +160,9 @@ namespace De2_AI_Agent.Controllers
 
                         c2t.SaveTree(treeNode);
 
-                        //AddAccomodation(studentAccomodation);
+                        AddAccomodation(studentAccomodation);
                         
                     }
-
 
                 }
                 else
@@ -185,9 +184,8 @@ namespace De2_AI_Agent.Controllers
                         // TreeNode tre = c2t.RetrieveTree();
                         //var tu = tre;
                         //dynamic tu = treeNode;
-                      //  AddAccomodation(studentAccomodation);
-                    
-                    
+                       AddAccomodation(studentAccomodation);
+                               
                 }
             }
             else
@@ -220,7 +218,7 @@ namespace De2_AI_Agent.Controllers
 
                         c2t.SaveTree(treeNode);
                       
-                        //AddAccomodation(studentAccomodation);
+                      AddAccomodation(studentAccomodation);
                     }
                     else
                     {
@@ -234,7 +232,7 @@ namespace De2_AI_Agent.Controllers
 
                         c2t.SaveTree(treeNode);
                         
-                        //AddAccomodation(studentAccomodation);
+                      AddAccomodation(studentAccomodation);
 
                     }
 
@@ -252,7 +250,7 @@ namespace De2_AI_Agent.Controllers
 
                     c2t.SaveTree(treeNode);
 
-                    //AddAccomodation(studentAccomodation);
+                   AddAccomodation(studentAccomodation);
                 }
             }
 

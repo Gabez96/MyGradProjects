@@ -9,8 +9,10 @@ namespace De2_AI_Agent.Models
     public class ChildNode
     {
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string data { get; set; }
+        public int safety { get; set; }
+        public int sentiment { get; set; }
         public List<ChildNode> Child {get;set;}
 
 
@@ -23,7 +25,7 @@ namespace De2_AI_Agent.Models
             this.data = value;
         }
 
-        public ChildNode(string value,string Id)
+        public ChildNode(string value,int Id)
         {
             //this.data = value;
             this.Id = Id;

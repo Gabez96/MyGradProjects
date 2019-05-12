@@ -30,7 +30,7 @@ namespace De2_AI_Agent.Models
             RootNode.ChildNodes[index].Child.Add(value);
         }
 
-        public ChildNode GetChild(string id)
+        public ChildNode GetChild(int id)
         {
             return RootNode.ChildNodes.Where(c => c.Id == id).FirstOrDefault();
         }

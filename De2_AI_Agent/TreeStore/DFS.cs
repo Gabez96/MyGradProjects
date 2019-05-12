@@ -11,12 +11,12 @@ namespace De2_AI_Agent.TreeStore
 
     public class DFS
     {
-        int counter = 0;
+       
         List<string> visitedNodes;
         Stack stack = new Stack();
         string goalval;
         List<string> studentaccomodations = new List<string>();
-        bool found = false;
+      
         public void TreeTraversal(TreeNode treeNode, string area, string incomegroup)
         {
 
@@ -95,7 +95,7 @@ namespace De2_AI_Agent.TreeStore
         public string GetRecommendations(ChildNode node)
         {
           
-            int rating = Convert.ToInt32(node.Id);
+            int rating = node.Id;
 
             if (rating >= 7)
             {
@@ -105,15 +105,39 @@ namespace De2_AI_Agent.TreeStore
             return null;
         }
 
-        public List<string> IterativeDeepeningSearch(TreeNode treee, ChildNode gooal, int depth)
+        public string GetRecommendationsForSafety(ChildNode node)
+        {
+
+            int rating = node.safety;
+
+            if (rating >= 3.5)
+            {
+                return node.data;
+            }
+
+            return null;
+        }
+        public string GetRecommendationsSentiment(ChildNode node)
+        {
+
+            int rating = node.sentiment;
+
+            if (rating >= 0.5)
+            {
+                return node.data;
+            }
+
+            return null;
+        }
+        public List<string> IterativeDeepeningSearch(TreeNode treee, RecoomendSuperclass.Percept gooal, int depth,int type)
         {
             List<string> result = new List<string>();
 
 
             for (int i = 0; i < depth; i++)
             {
-                goalval = gooal.data;
-                result = DepthLimitedSearch(treee, gooal, depth);
+                goalval = gooal.Incomegroup;
+                result = DepthLimitedSearch(treee, gooal, depth, type);
                 if (result != null)
                 {
                     return result;
@@ -123,7 +147,7 @@ namespace De2_AI_Agent.TreeStore
             return null;
         }
 
-        public List<string> DepthLimitedSearch(TreeNode tree, ChildNode goal, int limit)
+        public List<string> DepthLimitedSearch(TreeNode tree, RecoomendSuperclass.Percept goal, int limit,int type)
         {
             
             ChildNode chd = new ChildNode(tree.Data);
@@ -139,19 +163,33 @@ namespace De2_AI_Agent.TreeStore
 
                     if (n.data == goalval)
                     {
-                        goalval = goal.Id;
-                        DepthLimitedSearch(trees, goal, limit - 1);
+                        goalval = goal.area;
+                        DepthLimitedSearch(trees, goal, limit - 1,type);
                     }
                     System.Diagnostics.Debug.WriteLine(n.data);
                     if(n.Child.Count == 0)
                     {
-                        string res = GetRecommendations(n);
+                        string res = "";
+                        switch (type)
+                        {
+                            case 1:
+                                res = GetRecommendations(n);
+                                break;
+                            case 2:
+                                  res = GetRecommendationsForSafety(n);
+                                break;
+                            case 3:
+                                res = GetRecommendationsSentiment(n);
+                                break;
+                        }
+
+                        //string res = GetRecommendations(n);
                         if (res != null)
                         {
                             studentaccomodations.Add(res);
                         }
                     }   
-                    if(n.data == goal.data & goalval == goal.Id)
+                    if(n.data == goal.Incomegroup & goalval == goal.area)
                     {
                         if (studentaccomodations != null)
                         {

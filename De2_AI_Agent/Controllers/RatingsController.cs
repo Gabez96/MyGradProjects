@@ -31,7 +31,7 @@ namespace De2_AI_Agent.Controllers
             }
             catch (Exception e)
             {
-
+                e.ToString();
             }
             return View(stu);
         }
@@ -55,7 +55,7 @@ namespace De2_AI_Agent.Controllers
             }catch(Exception e)
             {
 
-
+                e.ToString();
             }
 
             return View();
@@ -84,7 +84,7 @@ namespace De2_AI_Agent.Controllers
                 }
                 catch(Exception e)
                 {
-
+                    e.ToString();
                 }
                
             }
@@ -96,7 +96,7 @@ namespace De2_AI_Agent.Controllers
 
         public int SaveRating(Rater rateings, StuAccomRatings studentAccomodation)
         {
-            
+            SentimentAnalysis sentiment = new SentimentAnalysis();
 
             if (ModelState.IsValid)
             {              
@@ -117,9 +117,19 @@ namespace De2_AI_Agent.Controllers
                                 {
                                     if(studentAccomodation.Name == acomodation.data)
                                     {
+                                        int val = acomodation.Id;
+                                        if(val > 0)
+                                        {
+                                            acomodation.Id = (val + (rateings.safety + rateings.service)) / 2;
+                                        }
+                                        else
+                                        {
+                                            acomodation.Id = rateings.safety + rateings.service;
+                                        }
+                                        acomodation.safety = rateings.safety;
 
-                                        acomodation.Id = Convert.ToString(rateings.safety + rateings.service);
-                                        
+                                        acomodation.sentiment = sentiment.DeterminePolarity(studentAccomodation.review);
+
                                         var t = treeNode;
 
 

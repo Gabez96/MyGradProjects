@@ -185,6 +185,7 @@
     <Compile Include="Models\StuAccomRatings.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAccomodation.cs" />
+    <Compile Include="Models\StudentAccomodationSuper.cs" />
     <Compile Include="Models\TreeNode.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\Users2.cs" />
