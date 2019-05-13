@@ -93,7 +93,8 @@ namespace De2_AI_Agent.Controllers
         {
             if (studentAccomodation.Count !=0)
             {
-                studentAccomodation.Clear();
+                studentAccomodation = null;
+                studentAccomodation = new List<StudentAccomodation>();
             }
             StudentAccomodation studcom = new StudentAccomodation();
            for(int i  =0; i < recomm.Count; i++)

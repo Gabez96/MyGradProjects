@@ -140,7 +140,9 @@ namespace De2_AI_Agent.TreeStore
                 result = DepthLimitedSearch(treee, gooal, depth, type);
                 if (result != null)
                 {
+                    studentaccomodations = new List<string>();
                     return result;
+                    
                 }
             }
 
