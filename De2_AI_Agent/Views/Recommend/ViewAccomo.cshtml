@@ -1,0 +1,81 @@
+﻿@model De2_AI_Agent.Models.StudentAccomodation
+
+<div>
+    <h4>StudentAccomodation</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.location)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.location)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IncomeGroup)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.IncomeGroup)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                @foreach (var item in Model.Rater)
+                {
+
+                    <dt>
+
+                        Safety rating
+                    </dt>
+                    <dd>
+                        @item.safety
+
+                    </dd>
+                    <dt>
+
+                        Service rating
+                    </dt>
+                    <dd>
+                        @item.service
+
+                    </dd>
+                    <dt>
+
+                        Review
+                    </dt>
+                    <dd>
+                        @item.review
+
+                    </dd>
+
+                    <br />
+                }
+            </dl>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

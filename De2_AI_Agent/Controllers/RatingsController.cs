@@ -45,6 +45,8 @@ namespace De2_AI_Agent.Controllers
 
                 var  stu = treedatStore.StudentAccomodation.Where(c => c.Id == RateId).FirstOrDefault();
                 Id = stu.Id;
+
+                TempData["RatingID"] = Id;
                 stuaccomratings.Name = stu.Name;
                 stuaccomratings.IncomeGroup = stu.IncomeGroup;
                 stuaccomratings.location = stu.location;
@@ -71,16 +73,17 @@ namespace De2_AI_Agent.Controllers
 
                 r.safety = stuAccomRatings.safety;
                 r.service = stuAccomRatings.service;
-                r.StudentAccomodationId = Id;
+                r.StudentAccomodationId =(int)TempData["RatingID"];
                 r.UsersId = 19;
                 r.review = stuAccomRatings.review;
 
                 try
                 {
-                    //treedatStore.Rater.Add(r);
-                    //treedatStore.SaveChanges();
-
                     SaveRating(r, stuAccomRatings);
+                    treedatStore.Rater.Add(r);
+                    treedatStore.SaveChanges();
+
+                   
                 }
                 catch(Exception e)
                 {
@@ -128,7 +131,7 @@ namespace De2_AI_Agent.Controllers
                                         }
                                         acomodation.safety = rateings.safety;
 
-                                        acomodation.sentiment = sentiment.DeterminePolarity(studentAccomodation.review);
+                                        acomodation.sentiment += sentiment.DeterminePolarity(studentAccomodation.review);
 
                                         var t = treeNode;
 

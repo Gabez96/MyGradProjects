@@ -13,83 +13,84 @@ namespace De2_AI_Agent.TreeStore
     {
        
         List<string> visitedNodes;
+        bool found;
         Stack stack = new Stack();
         string goalval;
         List<string> studentaccomodations = new List<string>();
       
-        public void TreeTraversal(TreeNode treeNode, string area, string incomegroup)
-        {
+        //public void TreeTraversal(TreeNode treeNode, string area, string incomegroup)
+        //{
 
 
-            if (treeNode == null)
-            {
-                return;
-            }
+        //    if (treeNode == null)
+        //    {
+        //        return;
+        //    }
 
 
-            visitedNodes = new List<string>();
+        //    visitedNodes = new List<string>();
 
-            visitedNodes.Add(treeNode.Data);
+        //    visitedNodes.Add(treeNode.Data);
 
-            stack = new Stack();
-            stack.Push(treeNode);
-
-
-            TreeNode t = (TreeNode)stack.Pop();
-
-            foreach (ChildNode child in t.ChildNodes)
-            {
-
-                Traverse(child, area, incomegroup);
-
-            }
-
-        }
-
-        public void Traverse(ChildNode child, string area, string incomegroup)
-        {
-
-            if (child == null)
-            {
-                return;
-            }
-
-            visitedNodes.Add(child.data);
-            stack.Push(child);
+        //    stack = new Stack();
+        //    stack.Push(treeNode);
 
 
+        //    TreeNode t = (TreeNode)stack.Pop();
+
+        //    foreach (ChildNode child in t.ChildNodes)
+        //    {
+
+        //        Traverse(child, area, incomegroup);
+
+        //    }
+
+        //}
+
+        //public void Traverse(ChildNode child, string area, string incomegroup)
+        //{
+
+        //    if (child == null)
+        //    {
+        //        return;
+        //    }
+
+        //    visitedNodes.Add(child.data);
+        //    stack.Push(child);
 
 
-            while (stack.Count > 0)
-            {
-                ChildNode childNode = (ChildNode)stack.Pop();
 
-                if (childNode.data == incomegroup)
-                {
-                    visitedNodes.Add(childNode.data);
-                    System.Diagnostics.Debug.WriteLine(childNode.data);
-                    foreach (ChildNode node in childNode.Child)
-                    {
 
-                        if (node.data == area)
-                        {
-                            visitedNodes.Add(node.data);
-                            stack.Push(node);
-                            System.Diagnostics.Debug.WriteLine(node.data);
-                            foreach (ChildNode chd in node.Child)
-                            {
-                                visitedNodes.Add(chd.data);
-                                System.Diagnostics.Debug.WriteLine(chd.data);
-                                stack.Push(chd);
-                                GetRecommendations(chd);
+        //    while (stack.Count > 0)
+        //    {
+        //        ChildNode childNode = (ChildNode)stack.Pop();
 
-                            }
-                        }
-                    }
-                }
-            }
+        //        if (childNode.data == incomegroup)
+        //        {
+        //            visitedNodes.Add(childNode.data);
+        //            System.Diagnostics.Debug.WriteLine(childNode.data);
+        //            foreach (ChildNode node in childNode.Child)
+        //            {
 
-        }
+        //                if (node.data == area)
+        //                {
+        //                    visitedNodes.Add(node.data);
+        //                    stack.Push(node);
+        //                    System.Diagnostics.Debug.WriteLine(node.data);
+        //                    foreach (ChildNode chd in node.Child)
+        //                    {
+        //                        visitedNodes.Add(chd.data);
+        //                        System.Diagnostics.Debug.WriteLine(chd.data);
+        //                        stack.Push(chd);
+        //                        GetRecommendations(chd);
+
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //}
 
 
         public string GetRecommendations(ChildNode node)
@@ -133,7 +134,7 @@ namespace De2_AI_Agent.TreeStore
         {
             List<string> result = new List<string>();
 
-
+            found = false;
             for (int i = 0; i < depth; i++)
             {
                 goalval = gooal.Incomegroup;
@@ -143,6 +144,9 @@ namespace De2_AI_Agent.TreeStore
                     studentaccomodations = new List<string>();
                     return result;
                     
+                }else if(found == false)
+                {
+                    break;
                 }
             }
 
@@ -160,6 +164,10 @@ namespace De2_AI_Agent.TreeStore
                 
                 foreach(ChildNode n in chd.Child)
                 {
+                    if(found  == true)
+                    {
+                        break;
+                    }
                    TreeNode trees = new TreeNode(n.data);
                    trees.ChildNodes = n.Child;
 
@@ -193,8 +201,10 @@ namespace De2_AI_Agent.TreeStore
                     }   
                     if(n.data == goal.Incomegroup & goalval == goal.area)
                     {
-                        if (studentaccomodations != null)
+                        if (studentaccomodations.Count != 0)
                         {
+                            found = true;
+
                             return studentaccomodations;
                         }
                         else
@@ -285,9 +295,4 @@ namespace De2_AI_Agent.TreeStore
             }
             return null;
         }
-
-
-
-
-
     */

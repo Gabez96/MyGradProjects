@@ -1,0 +1,45 @@
+﻿@model IEnumerable<De2_AI_Agent.Models.StudentAccomodation>
+
+@{
+    ViewBag.Title = "GetAllStudentAccomodations";
+}
+
+<h2>GetAllStudentAccomodations</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IncomeGroup)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IncomeGroup)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Rate it","RateAccomodation","Ratings", new { RateId = item.Id},null)
+        </td>
+    </tr>
+}
+
+</table>

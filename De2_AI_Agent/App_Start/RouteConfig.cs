@@ -16,7 +16,7 @@ namespace De2_AI_Agent
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Recommend", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

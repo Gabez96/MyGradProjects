@@ -46,44 +46,63 @@ namespace De2_AI_Agent.Controllers
             
 
             List<string> recommendations = dFS.IterativeDeepeningSearch(treeNode,percepts, 3,1);
-            List<string> recommendations_safety = dFS.IterativeDeepeningSearch(treeNode, percepts, 3, 2);
-            List<string> recommendations_sentiment = dFS.IterativeDeepeningSearch(treeNode, percepts, 3, 3);
-
             if (recommendations != null)
             {
                 GetRecommendations(recommendations);
+                //accomodationSuper.overalRecommendations = studentAccomodation;
+                TempData["nullOverall"] = false;
             }
-            accomodationSuper.overalRecommendations = studentAccomodation;
-            if (recommendations_safety != null)
+            else
             {
-                GetRecommendations(recommendations_safety);
+                TempData["nullOverall"] = true;
             }
-            accomodationSuper.basedOnSafety = studentAccomodation;
+
+            
+            //List<string> recommendations_safety = dFS.IterativeDeepeningSearch(treeNode, percepts, 3, 2);
+            //if (recommendations_safety != null)
+            //{
+            //    GetURecommendations(recommendations_safety);
+            //    //accomodationSuper.basedOnSafety = studentAccomodation;
+            //}
+            //else
+            //{
+                
+            //    TempData["nullSafety"] = true;
+            //}
+           
+            List<string> recommendations_sentiment = dFS.IterativeDeepeningSearch(treeNode, percepts, 3, 3);
+
             if (recommendations_sentiment != null)
             {
-                GetRecommendations(recommendations_sentiment);
+                GetTRecommendations(recommendations_sentiment);
+                // accomodationSuper.basedOnsentiment = studentAccomodation;
+
+                TempData["nullSentiment"] = false;
             }
-            
-
-            if (studentAccomodation != null)
+            else
             {
-               accomodationSuper.basedOnsentiment = studentAccomodation;
 
+                TempData["nullSentiment"] = true;
+            }
+
+            if (accomodationSuper != null)
+            {
+              
                 Session["RecommendationRating"] = accomodationSuper;
-                return RedirectToAction("ShowRecommendations", "Recommend");
-               
+                return RedirectToAction("ShowRecommendations", "Recommend");  
             }
             return View();
         }
 
         public ActionResult ShowRecommendations()
         {
+            
 
-            StudentAccomodationSuper studentAccomodations = (StudentAccomodationSuper)Session["RecommendationRating"];
+            StudentAccomodationSuper studAccomodations = (StudentAccomodationSuper)Session["RecommendationRating"];
 
-            if (studentAccomodations != null)
+            if (studAccomodations != null)
             {
-                return View(studentAccomodations);
+                return View(studAccomodations);
             }
             return null;
         }
@@ -93,7 +112,7 @@ namespace De2_AI_Agent.Controllers
         {
             if (studentAccomodation.Count !=0)
             {
-                studentAccomodation = null;
+               
                 studentAccomodation = new List<StudentAccomodation>();
             }
             StudentAccomodation studcom = new StudentAccomodation();
@@ -102,8 +121,10 @@ namespace De2_AI_Agent.Controllers
                 string h = recomm[i];
                 try
                 {
+                    accomodationSuper.overalRecommendations = new List<StudentAccomodation>();
+
                     studcom = db.StudentAccomodation.Where(c => c.Name == h).FirstOrDefault();
-                    studentAccomodation.Add(studcom);
+                    accomodationSuper.overalRecommendations.Add(studcom);
                 }
                 catch(Exception e)
                 {
@@ -112,5 +133,78 @@ namespace De2_AI_Agent.Controllers
            }
             return null;
         }
+        public string GetURecommendations(List<string> recomm)
+        {
+            
+            StudentAccomodation studsafety = new StudentAccomodation();
+            for (int i = 0; i < recomm.Count; i++)
+            {
+                string h = recomm[i];
+                try
+                {
+                    accomodationSuper.basedOnSafety = new List<StudentAccomodation>();
+                    studsafety = db.StudentAccomodation.Where(c => c.Name == h).FirstOrDefault();
+                    accomodationSuper.basedOnSafety.Add(studsafety);
+                }
+                catch (Exception e)
+                {
+                    e.ToString();
+                }
+            }
+            return null;
+        }
+        public string GetTRecommendations(List<string> recomm)
+        {
+            
+            StudentAccomodation studm = new StudentAccomodation();
+            for (int i = 0; i < recomm.Count; i++)
+            {
+                string h = recomm[i];
+                try
+                {
+                    accomodationSuper.basedOnsentiment = new List<StudentAccomodation>();
+                    studm = db.StudentAccomodation.Where(c => c.Name == h).FirstOrDefault();
+                    accomodationSuper.basedOnsentiment.Add(studm);
+                }
+                catch (Exception e)
+                {
+                    e.ToString();
+                }
+            }
+            return null;
+        }
+
+        public ActionResult ViewAccomo (int ViewId)
+        {
+            StudentAccomodation accomodationStud;
+            List<Rater> rater;
+            RecoomendSuperclass recmSuper;
+            try
+            {
+                accomodationStud = new StudentAccomodation();
+                rater = new List<Rater>();
+                recmSuper = new RecoomendSuperclass();
+                accomodationStud = db.StudentAccomodation.Where(c => c.Id == ViewId).FirstOrDefault();
+
+                rater = db.Rater.Where(c => c.StudentAccomodationId == accomodationStud.Id).ToList();
+
+
+
+                accomodationStud.Rater = rater;
+
+                return View(accomodationStud);
+
+
+            }catch(Exception e)
+            {
+
+
+
+            }
+            return View();
+        }
+
+
+
     }
 }
